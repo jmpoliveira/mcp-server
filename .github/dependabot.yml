@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      opentelemetry:
+        patterns: ["opentelemetry-*"]
+      dev-tools:
+        patterns: ["pytest*", "ruff", "pyright"]
+    ignore:
+      # The code targets the 1.x SDK (FastMCP); 2.x needs a migration.
+      - dependency-name: mcp
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
