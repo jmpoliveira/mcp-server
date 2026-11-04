@@ -5,7 +5,7 @@ call, and sends the trace context to the server inside the request ``_meta``.
 
 Usage:
     OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \\
-        python scripts/simulate_agent.py --url http://localhost:3000/mcp
+        python scripts/simulate_agent.py --url http://localhost:8000/mcp
 """
 
 import argparse
@@ -66,11 +66,14 @@ async def call_tool(
 
 async def run(url: str) -> str:
     tracer = trace.get_tracer(SERVICE)
-    with tracer.start_as_current_span("agent.run") as root:
-        trace_id = format(root.get_span_context().trace_id, "032x")
-        async with streamablehttp_client(url) as (read, write, _):
-            async with ClientSession(read, write) as session:
-                await session.initialize()
+    trace_id = ""
+    async with streamablehttp_client(url) as (read, write, _):
+        async with ClientSession(read, write) as session:
+            # Connecting is not part of the agent run, so the root span starts
+            # after it: the trace then shows the run itself, not the handshake.
+            await session.initialize()
+            with tracer.start_as_current_span("agent.run") as root:
+                trace_id = format(root.get_span_context().trace_id, "032x")
                 await list_tools(session, tracer)
                 await call_tool(session, tracer, "search_customers", {"query": "acme"})
                 await call_tool(session, tracer, "get_ticket_info", {"ticket_id": "T-1001"})
@@ -89,7 +92,7 @@ async def run(url: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
-    parser.add_argument("--url", required=True, help="MCP endpoint, e.g. http://localhost:3000/mcp")
+    parser.add_argument("--url", required=True, help="MCP endpoint, e.g. http://localhost:8000/mcp")
     args = parser.parse_args()
 
     provider = build_provider()

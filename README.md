@@ -6,6 +6,10 @@
 
 A generic [Model Context Protocol](https://modelcontextprotocol.io) server over **streamable HTTP**, built with Python and the official MCP SDK. It ships with three mock tools (customers and support tickets) and a layered structure so the mocks can be replaced by real systems without touching the tools.
 
+![One trace in Jaeger: agent.run -> tools/list -> tools/call](docs/mcp-server-card.png)
+
+A single trace from the simulated agent to the MCP server, in Jaeger.
+
 ## Quick start
 
 ```bash
