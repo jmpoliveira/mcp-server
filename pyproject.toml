@@ -13,7 +13,7 @@ authors = [{ name = "Jorge Oliveira" }]
 keywords = ["mcp", "model-context-protocol", "opentelemetry", "clean-architecture", "fastmcp"]
 requires-python = ">=3.12"
 dependencies = [
-    "mcp>=1.9,<2",
+    "mcp>=2.3.0,<3",
     "pydantic-settings>=2.2",
     "uvicorn>=0.30",
     "opentelemetry-api>=1.30,<2",
