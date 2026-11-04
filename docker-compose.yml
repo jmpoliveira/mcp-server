@@ -1,0 +1,39 @@
+services:
+  mcp-server:
+    build: .
+    environment:
+      APP_ENV: development            # json on stdout, no log file; use production in prod
+      SERVICE_VERSION: ${SERVICE_VERSION:-0.1.0}
+      MCP_SERVER_NAME: ${MCP_SERVER_NAME:-mcp-server}
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: "3000"
+      OTEL_ENABLED: "true"
+      OTEL_SERVICE_NAME: mcp-server
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318
+    ports:
+      - "3000:3000"
+    depends_on:
+      - jaeger
+    # Docker keeps stdout forever by default; cap it.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  jaeger:
+    # Pin the version you tested; check https://www.jaegertracing.io for the latest v2 tag.
+    image: jaegertracing/jaeger:2.22.0
+    # By default the OTLP receivers listen on localhost inside the container, so
+    # other containers (and the host) cannot reach them even with ports published.
+    command:
+      - --set=receivers.otlp.protocols.http.endpoint=0.0.0.0:4318
+      - --set=receivers.otlp.protocols.grpc.endpoint=0.0.0.0:4317
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "4318:4318"     # OTLP over HTTP

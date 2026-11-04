@@ -1,0 +1,121 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "tools": [
+      {
+        "name": "search_customers",
+        "description": "Search customer records by id, name, email or company.",
+        "inputSchema": {
+          "properties": {
+            "query": {
+              "description": "Text to match against id, name, email or company.",
+              "title": "Query",
+              "type": "string"
+            },
+            "max_results": {
+              "default": 5,
+              "description": "Maximum number of customers to return (1-20).",
+              "title": "Max Results",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "title": "search_customers_toolArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "search_customers_toolDictOutput",
+          "type": "object"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_ticket_info",
+        "description": "Get the details and current status of a support ticket.",
+        "inputSchema": {
+          "properties": {
+            "ticket_id": {
+              "description": "Ticket identifier, for example 'T-1001'.",
+              "title": "Ticket Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "ticket_id"
+          ],
+          "title": "get_ticket_info_toolArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "get_ticket_info_toolDictOutput",
+          "type": "object"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "create_ticket",
+        "description": "Create a new support ticket for an existing customer.",
+        "inputSchema": {
+          "properties": {
+            "customer_id": {
+              "description": "Id of an existing customer, for example 'C-001'.",
+              "title": "Customer Id",
+              "type": "string"
+            },
+            "title": {
+              "description": "Short summary (max 120 characters).",
+              "title": "Title",
+              "type": "string"
+            },
+            "description": {
+              "description": "Full problem description (max 2000 characters).",
+              "title": "Description",
+              "type": "string"
+            },
+            "priority": {
+              "default": "medium",
+              "description": "Ticket priority.",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "urgent"
+              ],
+              "title": "Priority",
+              "type": "string"
+            }
+          },
+          "required": [
+            "customer_id",
+            "title",
+            "description"
+          ],
+          "title": "create_ticket_toolArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "create_ticket_toolDictOutput",
+          "type": "object"
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        }
+      }
+    ]
+  }
+}

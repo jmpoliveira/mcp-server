@@ -1,0 +1,32 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"count\": 2,\n  \"customers\": [\n    {\n      \"id\": \"C-001\",\n      \"name\": \"Alice Johnson\",\n      \"email\": \"alice.johnson@acme.example\",\n      \"company\": \"Acme Corp\",\n      \"plan\": \"enterprise\"\n    },\n    {\n      \"id\": \"C-004\",\n      \"name\": \"David Lee\",\n      \"email\": \"david.lee@acme.example\",\n      \"company\": \"Acme Corp\",\n      \"plan\": \"enterprise\"\n    }\n  ]\n}"
+      }
+    ],
+    "structuredContent": {
+      "count": 2,
+      "customers": [
+        {
+          "id": "C-001",
+          "name": "Alice Johnson",
+          "email": "alice.johnson@acme.example",
+          "company": "Acme Corp",
+          "plan": "enterprise"
+        },
+        {
+          "id": "C-004",
+          "name": "David Lee",
+          "email": "david.lee@acme.example",
+          "company": "Acme Corp",
+          "plan": "enterprise"
+        }
+      ]
+    },
+    "isError": false
+  }
+}

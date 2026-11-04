@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"get_ticket_info","arguments":{"ticket_id":"T-1001"}}}

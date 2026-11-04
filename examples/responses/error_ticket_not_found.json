@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Error executing tool get_ticket_info: Ticket T-9999 not found"
+      }
+    ],
+    "isError": true
+  }
+}

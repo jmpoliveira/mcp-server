@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "filters": {
+    "non_error": {
+      "()": "src.infrastructure.logging.filters.NonErrorFilter"
+    },
+    "trace_context": {
+      "()": "src.infrastructure.logging.filters.TraceContextFilter"
+    },
+    "redaction": {
+      "()": "src.infrastructure.logging.filters.RedactionFilter"
+    }
+  },
+  "formatters": {
+    "console": {
+      "()": "src.infrastructure.logging.formatters.ConsoleFormatter"
+    },
+    "json": {
+      "()": "src.infrastructure.logging.formatters.JsonFormatter",
+      "static_fields": {},
+      "max_message_chars": 4000,
+      "max_stacktrace_chars": 6000
+    }
+  },
+  "handlers": {
+    "stdout": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "console",
+      "filters": [
+        "non_error"
+      ],
+      "stream": "ext://sys.stdout"
+    },
+    "stderr": {
+      "class": "logging.StreamHandler",
+      "level": "ERROR",
+      "formatter": "console",
+      "stream": "ext://sys.stderr"
+    },
+    "file_all": {
+      "class": "src.infrastructure.logging.handlers.SafeRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "json",
+      "filename": "logs/mcp-server.log.jsonl",
+      "maxBytes": 10000000,
+      "backupCount": 10,
+      "encoding": "utf-8",
+      "delay": true
+    },
+    "queue_handler": {
+      "class": "src.infrastructure.logging.handlers.StructuredQueueHandler",
+      "handlers": [
+        "stdout",
+        "stderr",
+        "file_all"
+      ],
+      "respect_handler_level": true,
+      "filters": [
+        "trace_context",
+        "redaction"
+      ],
+      "queue": {
+        "()": "queue.Queue",
+        "maxsize": 10000
+      }
+    }
+  },
+  "loggers": {
+    "uvicorn.access": {
+      "level": "WARNING"
+    },
+    "urllib3": {
+      "level": "WARNING"
+    },
+    "httpx": {
+      "level": "WARNING"
+    },
+    "httpcore": {
+      "level": "WARNING"
+    },
+    "asyncio": {
+      "level": "WARNING"
+    },
+    "sse_starlette": {
+      "level": "WARNING"
+    }
+  },
+  "root": {
+    "level": "INFO",
+    "handlers": [
+      "queue_handler"
+    ]
+  }
+}

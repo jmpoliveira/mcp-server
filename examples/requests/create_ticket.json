@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"create_ticket","arguments":{"customer_id":"C-001","title":"Cannot log in","description":"The login page returns a 500 error since this morning.","priority":"high"}}}

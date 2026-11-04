@@ -1,0 +1,79 @@
+# Requests for the VS Code "REST Client" extension (humao.rest-client).
+# Click "Send Request" above any ### block. Bodies come from ./requests/*.json,
+# so this file and the JSON examples never drift apart.
+# Change baseUrl to match your MCP_PORT.
+
+@baseUrl = http://localhost:3000
+
+### Health check
+GET {{baseUrl}}/health
+
+### List tools
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/tools_list.json
+
+### List tools, continuing a trace (traceparent in _meta)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/tools_list_with_traceparent.json
+
+### Search customers
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/search_customers.json
+
+### Get ticket info
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/get_ticket_info.json
+
+### Create ticket
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/create_ticket.json
+
+### Get ticket info, continuing an existing trace (traceparent in _meta)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/get_ticket_info_with_traceparent.json
+
+### Error: ticket not found
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/error_ticket_not_found.json
+
+### Error: customer not found
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/error_customer_not_found.json
+
+### Error: malformed ticket id
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/error_invalid_ticket_id.json
+
+### Error: invalid priority (rejected by the tool schema)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/error_invalid_priority.json

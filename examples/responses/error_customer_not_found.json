@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Error executing tool create_ticket: Customer C-404 not found"
+      }
+    ],
+    "isError": true
+  }
+}

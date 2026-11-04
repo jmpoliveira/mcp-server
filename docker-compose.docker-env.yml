@@ -1,0 +1,42 @@
+# Variant for a shared infrastructure project ("docker-env") that already runs Jaeger,
+# Ollama, etc. on the external network `docker-env-net`.
+#
+#   docker compose -f docker-compose.docker-env.yml up --build
+#
+# Start docker-env first, otherwise the external network does not exist yet.
+services:
+  mcp-server:
+    build:
+      context: .
+    image: mcp-server:latest
+    container_name: mcp-server
+    env_file:
+      - .env
+    environment:
+      APP_ENV: development
+      SERVICE_VERSION: ${SERVICE_VERSION:-0.1.0}
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: "3000"
+      OTEL_ENABLED: "true"
+      OTEL_SERVICE_NAME: mcp-server
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318
+    ports:
+      - "3000:3000"
+    networks:
+      - shared
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  shared:
+    name: docker-env-net
+    external: true  # created by docker-env, not by this project

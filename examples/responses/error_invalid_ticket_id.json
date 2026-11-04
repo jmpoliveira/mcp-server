@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 8,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Error executing tool get_ticket_info: ticket_id must look like 'T-1001'"
+      }
+    ],
+    "isError": true
+  }
+}

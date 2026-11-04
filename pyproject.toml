@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-server"
+version = "0.1.0"
+description = "Generic MCP server over streamable HTTP with mock customer and ticket tools, built with Clean Architecture."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Jorge Oliveira" }]
+keywords = ["mcp", "model-context-protocol", "opentelemetry", "clean-architecture", "fastmcp"]
+requires-python = ">=3.12"
+dependencies = [
+    "mcp>=1.9,<2",
+    "pydantic-settings>=2.2",
+    "uvicorn>=0.30",
+    "opentelemetry-api>=1.30,<2",
+    "opentelemetry-sdk>=1.30,<2",
+    "opentelemetry-exporter-otlp-proto-http>=1.30,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "pyright>=1.1.380",
+]
+
+[tool.setuptools.packages.find]
+include = ["config*", "src*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.setuptools.package-data]
+config = ["logging.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["build"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pyright]
+include = ["main.py", "config", "src", "scripts", "tests"]
+pythonVersion = "3.12"
+extraPaths = ["."]
+
+# Tests poke at optional values, dynamic LogRecord attributes and pydantic-settings
+# init kwargs (_env_file) on purpose; keep strict checking for production code.
+[[tool.pyright.executionEnvironments]]
+root = "tests"
+extraPaths = ["."]
+reportCallIssue = "none"
+reportAttributeAccessIssue = "none"
+reportOptionalMemberAccess = "none"
+reportOptionalSubscript = "none"
+reportArgumentType = "none"
+reportGeneralTypeIssues = "none"
