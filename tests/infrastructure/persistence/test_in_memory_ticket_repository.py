@@ -1,5 +1,7 @@
 import asyncio
+from dataclasses import replace
 
+from src.domain.value_objects.ticket_id import TicketId
 from src.infrastructure.persistence.in_memory_ticket_repository import (
     InMemoryTicketRepository,
 )
@@ -34,3 +36,17 @@ async def test_added_ticket_can_be_fetched():
     await repository.add(ticket)
 
     assert await repository.get(ticket.id) == ticket
+
+
+async def test_list_by_customer_returns_only_that_customers_tickets_including_added_ones():
+    repository = InMemoryTicketRepository(TICKETS)
+    added = replace(TICKETS[1], id=TicketId("T-2000"), customer_id="C-001")
+
+    await repository.add(added)
+
+    found = await repository.list_by_customer("C-001")
+    assert sorted(str(ticket.id) for ticket in found) == ["T-1001", "T-2000"]
+
+
+async def test_list_by_customer_without_tickets_is_empty():
+    assert await InMemoryTicketRepository(TICKETS).list_by_customer("C-004") == []

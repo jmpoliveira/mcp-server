@@ -64,6 +64,58 @@
         }
       },
       {
+        "name": "search_tickets",
+        "description": "List a customer's support tickets, newest first, optionally filtered by status. Each\nticket has id, customer_id, title, description, priority, status and creation date. Takes\na customer id from search_customers. An empty list means the customer exists and has no\ntickets matching the filter.",
+        "inputSchema": {
+          "properties": {
+            "customer_id": {
+              "description": "Customer id ('C-' followed by digits), as returned by search_customers.",
+              "title": "Customer Id",
+              "type": "string"
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "open",
+                    "in_progress",
+                    "resolved",
+                    "closed"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Only tickets with this status. Omit for all statuses.",
+              "title": "Status"
+            },
+            "max_results": {
+              "default": 10,
+              "description": "Maximum number of tickets to return (1-20).",
+              "title": "Max Results",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "customer_id"
+          ],
+          "title": "search_tickets_toolArguments",
+          "type": "object"
+        },
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "search_tickets_toolDictOutput",
+          "type": "object"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        }
+      },
+      {
         "name": "create_ticket",
         "description": "Create a new support ticket for an existing customer.",
         "inputSchema": {

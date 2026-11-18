@@ -10,6 +10,7 @@ from config.settings import Settings, get_settings
 from src.application.use_cases.create_ticket import CreateTicket
 from src.application.use_cases.get_ticket_info import GetTicketInfo
 from src.application.use_cases.search_customers import SearchCustomers
+from src.application.use_cases.search_tickets import SearchTickets
 from src.infrastructure.logging.setup import setup_logging, shutdown_logging
 from src.infrastructure.persistence.in_memory_customer_repository import (
     InMemoryCustomerRepository,
@@ -35,6 +36,7 @@ def build_application(settings: Settings) -> FastMCP:
         SearchCustomers(customers),
         GetTicketInfo(tickets),
         CreateTicket(tickets, customers),
+        SearchTickets(tickets, customers),
     )
 
 

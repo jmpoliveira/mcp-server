@@ -9,6 +9,7 @@ from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
 from src.application.use_cases.create_ticket import CreateTicket
 from src.application.use_cases.get_ticket_info import GetTicketInfo
 from src.application.use_cases.search_customers import SearchCustomers
+from src.application.use_cases.search_tickets import SearchTickets
 from src.infrastructure.persistence.in_memory_customer_repository import (
     InMemoryCustomerRepository,
 )
@@ -34,6 +35,7 @@ def use_cases(customer_repository, ticket_repository):
         SearchCustomers(customer_repository),
         GetTicketInfo(ticket_repository),
         CreateTicket(ticket_repository, customer_repository),
+        SearchTickets(ticket_repository, customer_repository),
     )
 
 

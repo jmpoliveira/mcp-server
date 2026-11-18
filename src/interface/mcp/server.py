@@ -8,6 +8,7 @@ from config.settings import Settings
 from src.application.use_cases.create_ticket import CreateTicket
 from src.application.use_cases.get_ticket_info import GetTicketInfo
 from src.application.use_cases.search_customers import SearchCustomers
+from src.application.use_cases.search_tickets import SearchTickets
 from src.interface.mcp.tools.customer_tools import register_customer_tools
 from src.interface.mcp.tools.ticket_tools import register_ticket_tools
 from src.interface.mcp.traced_server import TracedFastMCP
@@ -18,6 +19,7 @@ def build_server(
     search_customers: SearchCustomers,
     get_ticket_info: GetTicketInfo,
     create_ticket: CreateTicket,
+    search_tickets: SearchTickets,
 ) -> FastMCP:
     """Create the MCP server with its tools and a health endpoint.
 
@@ -36,5 +38,5 @@ def build_server(
         return JSONResponse({"status": "ok"})
 
     register_customer_tools(server, search_customers)
-    register_ticket_tools(server, get_ticket_info, create_ticket)
+    register_ticket_tools(server, get_ticket_info, create_ticket, search_tickets)
     return server

@@ -1,0 +1,27 @@
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"count\": 1,\n  \"tickets\": [\n    {\n      \"id\": \"T-1002\",\n      \"customer_id\": \"C-002\",\n      \"title\": \"Invoice shows wrong VAT\",\n      \"description\": \"The October invoice applies 23% VAT instead of 0%.\",\n      \"priority\": \"medium\",\n      \"status\": \"open\",\n      \"created_at\": \"2026-10-30T14:05:00+00:00\"\n    }\n  ]\n}"
+      }
+    ],
+    "structuredContent": {
+      "count": 1,
+      "tickets": [
+        {
+          "id": "T-1002",
+          "customer_id": "C-002",
+          "title": "Invoice shows wrong VAT",
+          "description": "The October invoice applies 23% VAT instead of 0%.",
+          "priority": "medium",
+          "status": "open",
+          "created_at": "2026-10-30T14:05:00+00:00"
+        }
+      ]
+    },
+    "isError": false
+  }
+}

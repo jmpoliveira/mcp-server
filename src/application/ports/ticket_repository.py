@@ -13,6 +13,10 @@ class TicketRepository(Protocol):
         """Reserve and return a new unique ticket id."""
         ...
 
+    async def list_by_customer(self, customer_id: str) -> list[Ticket]:
+        """Return every ticket of one customer, in no particular order."""
+        ...
+
     async def add(self, ticket: Ticket) -> None:
         """Persist a ticket."""
         ...

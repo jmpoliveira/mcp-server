@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue)
 
-A generic [Model Context Protocol](https://modelcontextprotocol.io) server over **streamable HTTP**, built with Python and the official MCP SDK. It ships with three mock tools (customers and support tickets) and a layered structure so the mocks can be replaced by real systems without touching the tools.
+A generic [Model Context Protocol](https://modelcontextprotocol.io) server over **streamable HTTP**, built with Python and the official MCP SDK. It ships with four mock tools (customers and support tickets) and a layered structure so the mocks can be replaced by real systems without touching the tools.
 
 ![One trace in Jaeger: agent.run -> tools/list -> tools/call](docs/mcp-server-card.png)
 
@@ -26,6 +26,7 @@ Run `make help` for every command (`test`, `lint`, `typecheck`, `check`, `docker
 |------|------|-------------|
 | `search_customers` | read-only | Search customers by id, name, email or company |
 | `get_ticket_info` | read-only | Get a ticket by id (e.g. `T-1001`) |
+| `search_tickets` | read-only | List a customer's tickets, newest first, optionally by status |
 | `create_ticket` | write | Create a ticket for an existing customer |
 
 Mock data lives in `src/infrastructure/persistence/mock_data.py` (customers `C-001`..`C-004`, tickets `T-1001`..`T-1003`). Tickets created at runtime are kept in memory and lost on restart.

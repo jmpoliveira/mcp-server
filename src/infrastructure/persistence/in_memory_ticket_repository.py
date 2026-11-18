@@ -26,6 +26,9 @@ class InMemoryTicketRepository:
     async def get(self, ticket_id: TicketId) -> Ticket | None:
         return self._tickets.get(ticket_id)
 
+    async def list_by_customer(self, customer_id: str) -> list[Ticket]:
+        return [ticket for ticket in self._tickets.values() if ticket.customer_id == customer_id]
+
     async def next_id(self) -> TicketId:
         async with self._lock:
             ticket_id = TicketId.from_number(self._next_number)

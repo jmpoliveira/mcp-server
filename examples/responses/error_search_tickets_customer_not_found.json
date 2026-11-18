@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 11,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Error executing tool search_tickets: Customer C-404 not found"
+      }
+    ],
+    "isError": true
+  }
+}

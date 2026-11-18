@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Generic MCP server over streamable HTTP (Python, official `mcp` SDK, FastMCP) with three mock
+Generic MCP server over streamable HTTP (Python, official `mcp` SDK, FastMCP) with four mock
 tools. Built with Clean Architecture, OpenTelemetry tracing and structured logging.
 This file is self-contained: it holds both the general standards and the project specifics.
 

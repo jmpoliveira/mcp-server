@@ -36,6 +36,13 @@ Accept: application/json, text/event-stream
 
 < ./requests/get_ticket_info.json
 
+### Search a customer's tickets
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/search_tickets.json
+
 ### Create ticket
 POST {{baseUrl}}/mcp
 Content-Type: application/json
@@ -63,6 +70,13 @@ Content-Type: application/json
 Accept: application/json, text/event-stream
 
 < ./requests/error_customer_not_found.json
+
+### Error: unknown customer when searching tickets
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+< ./requests/error_search_tickets_customer_not_found.json
 
 ### Error: malformed ticket id
 POST {{baseUrl}}/mcp

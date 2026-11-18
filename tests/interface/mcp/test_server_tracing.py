@@ -77,7 +77,7 @@ async def test_tools_list_continues_the_caller_trace(server, span_exporter):
         listed = await client.list_tools(params=params)
 
     (span,) = spans_named(span_exporter, "tools/list")
-    assert len(listed.tools) == 3
+    assert len(listed.tools) == 4
     assert format(span.context.trace_id, "032x") == TRACE_ID
     assert format(span.parent.span_id, "016x") == PARENT_SPAN_ID
     assert span.attributes["mcp.method.name"] == "tools/list"
@@ -126,5 +126,5 @@ async def test_tools_list_log_carries_the_trace_ids(server, span_exporter, caplo
     async with create_connected_server_and_client_session(server._mcp_server) as client:
         await client.list_tools(params=params)
 
-    (record,) = [r for r in caplog.records if r.getMessage() == "Listed 3 tools"]
+    (record,) = [r for r in caplog.records if r.getMessage() == "Listed 4 tools"]
     assert record.trace_id == TRACE_ID
