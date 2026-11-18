@@ -25,11 +25,13 @@ def register_ticket_tools(
 ) -> None:
     @server.tool(name="get_ticket_info", annotations=READ_ONLY)
     async def get_ticket_info_tool(
-        ticket_id: Annotated[str, Field(description="Ticket identifier, for example 'T-1001'.")],
+        ticket_id: Annotated[str, Field(description="Ticket id: 'T-' followed by digits.")],
         *,
         ctx: Context,
     ) -> dict[str, Any]:
-        """Get the details and current status of a support ticket."""
+        """Get one support ticket by its ticket id: title, description, priority,
+        status, creation date and the id of the customer it belongs to. It cannot list or
+        search tickets, and customer ids ('C-...') are not ticket ids."""
         with server_span(ctx, "get_ticket_info"):
             logger.info("Tool get_ticket_info called")
             return asdict(await get_ticket_info.execute(ticket_id))
@@ -37,7 +39,13 @@ def register_ticket_tools(
     @server.tool(name="create_ticket", annotations=WRITE)
     async def create_ticket_tool(
         customer_id: Annotated[
-            str, Field(description="Id of an existing customer, for example 'C-001'.")
+            str,
+            Field(
+                description=(
+                    "Id of an existing customer as returned by search_customers "
+                    "('C-' followed by digits)."
+                )
+            ),
         ],
         title: Annotated[str, Field(description="Short summary (max 120 characters).")],
         description: Annotated[

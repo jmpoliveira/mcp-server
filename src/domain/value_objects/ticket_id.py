@@ -10,13 +10,13 @@ _PATTERN = re.compile(r"^T-(\d+)$")
 
 @dataclass(frozen=True, slots=True)
 class TicketId:
-    """A ticket id such as ``T-1001``. Invalid values cannot be constructed."""
+    """A ticket id: ``T-`` followed by digits. Invalid values cannot be constructed."""
 
     value: str
 
     def __post_init__(self) -> None:
         if not _PATTERN.match(self.value):
-            raise InvalidInputError("ticket_id must look like 'T-1001'")
+            raise InvalidInputError("ticket_id must be 'T-' followed by digits")
 
     @classmethod
     def parse(cls, raw: str) -> "TicketId":

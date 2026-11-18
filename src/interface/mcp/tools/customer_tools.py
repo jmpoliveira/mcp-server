@@ -20,7 +20,12 @@ def register_customer_tools(server: FastMCP, search_customers: SearchCustomers) 
     @server.tool(name="search_customers", annotations=READ_ONLY)
     async def search_customers_tool(
         query: Annotated[
-            str, Field(description="Text to match against id, name, email or company.")
+            str,
+            Field(
+                description=(
+                    "Customer id ('C-' followed by digits), name, email or company, or part of one."
+                )
+            ),
         ],
         max_results: Annotated[
             int, Field(description="Maximum number of customers to return (1-20).")
@@ -28,7 +33,10 @@ def register_customer_tools(server: FastMCP, search_customers: SearchCustomers) 
         *,
         ctx: Context,
     ) -> dict[str, Any]:
-        """Search customer records by id, name, email or company."""
+        """Find customers by customer id, name, email or company (case-insensitive,
+        partial match). Returns up to max_results customers, each with id, name, email, company
+        and plan. Customer records do not include support tickets, so they cannot show whether
+        a customer has any."""
         with server_span(ctx, "search_customers"):
             logger.info("Tool search_customers called")
             found = await search_customers.execute(query, max_results)

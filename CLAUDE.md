@@ -54,6 +54,8 @@ src/interface/mcp/      FastMCP server, tools, tracing, runner
 4. Interface: register the tool in `src/interface/mcp/tools/` with keyword-only `*, ctx: Context`,
    wrap the use case in `server_span(ctx, "<tool>")`, and wire it in `build_server`, `main.py`
    and the `use_cases` fixture in `tests/conftest.py` (`build_server` takes use cases positionally).
+   Descriptions and error messages describe formats ("'T-' followed by digits"), never real ids
+   from the mock data: a model copies example ids into its calls.
 5. Tests mirroring the source path, and a request/response pair in `examples/`; also refresh
    `examples/responses/tools_list*.json` (`tests/test_examples.py` replays every request and
    compares it with its stored response, so update both when a tool changes).

@@ -5,11 +5,11 @@
     "tools": [
       {
         "name": "search_customers",
-        "description": "Search customer records by id, name, email or company.",
+        "description": "Find customers by customer id, name, email or company (case-insensitive,\npartial match). Returns up to max_results customers, each with id, name, email, company\nand plan. Customer records do not include support tickets, so they cannot show whether\na customer has any.",
         "inputSchema": {
           "properties": {
             "query": {
-              "description": "Text to match against id, name, email or company.",
+              "description": "Customer id ('C-' followed by digits), name, email or company, or part of one.",
               "title": "Query",
               "type": "string"
             },
@@ -38,11 +38,11 @@
       },
       {
         "name": "get_ticket_info",
-        "description": "Get the details and current status of a support ticket.",
+        "description": "Get one support ticket by its ticket id: title, description, priority,\nstatus, creation date and the id of the customer it belongs to. It cannot list or\nsearch tickets, and customer ids ('C-...') are not ticket ids.",
         "inputSchema": {
           "properties": {
             "ticket_id": {
-              "description": "Ticket identifier, for example 'T-1001'.",
+              "description": "Ticket id: 'T-' followed by digits.",
               "title": "Ticket Id",
               "type": "string"
             }
@@ -69,7 +69,7 @@
         "inputSchema": {
           "properties": {
             "customer_id": {
-              "description": "Id of an existing customer, for example 'C-001'.",
+              "description": "Id of an existing customer as returned by search_customers ('C-' followed by digits).",
               "title": "Customer Id",
               "type": "string"
             },
