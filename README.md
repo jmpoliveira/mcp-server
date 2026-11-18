@@ -46,7 +46,7 @@ src/
   application/                       use cases and the ports they need
     ports/                             CustomerRepository, TicketRepository (protocols)
     dto/                               output models returned by use cases
-    use_cases/                         SearchCustomers, GetTicketInfo, CreateTicket
+    use_cases/                         SearchCustomers, GetTicketInfo, SearchTickets, CreateTicket
   infrastructure/                    adapters implementing the ports
     persistence/                       in-memory repositories and mock data
     logging/                           structured logging (queue, JSON formatter, filters)
